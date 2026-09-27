@@ -1,5 +1,6 @@
 import os
-from telegram import ReplyKeyboardMarkup, Update from telegram.ext import ( Application, CommandHandler, ContextTypes, MessageHandler, filters, )
+from telegram import ReplyKeyboardMarkup, Update
+from telegram.ext import ( Application, CommandHandler, ContextTypes, MessageHandler, filters, )
 TOKEN = os.getenv("BOT_TOKEN")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE): keyboard = [ ["💐 Каталог", "✨ Подобрать букет"], ["🔥 Акции", "🎟 Промокоды"], ["🎁 Конкурсы", "🚚 Доставка"], ["🌿 О нас", "📍 Мы находимся"], ["💬 Связаться с нами"], ]
 reply_markup = ReplyKeyboardMarkup(
