@@ -16,7 +16,7 @@ await update.message.reply_text(
     "💐 Выберите нужный раздел:",
     reply_markup=reply_markup
 )
-async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text( "Этот раздел мы сейчас наполняем 🌿\n" "Скоро здесь появится всё необходимое." )
+async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text( "Этот раздел мы сейчас наполняем 🌿\n\n" "Скоро здесь появится всё необходимое." )
 def main(): if not TOKEN: raise ValueError("Не найден BOT_TOKEN")
 external_url = os.getenv("RENDER_EXTERNAL_URL")
 
@@ -29,7 +29,9 @@ application = (
     .build()
 )
 
-application.add_handler(CommandHandler("start", start))
+application.add_handler(
+    CommandHandler("start", start)
+)
 
 application.add_handler(
     MessageHandler(
