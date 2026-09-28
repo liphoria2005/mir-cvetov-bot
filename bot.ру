@@ -7,20 +7,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["🔥 Акции", "🏷 Промокоды"],
         ["🎁 Конкурсы", "🚚 Доставка"],
         ["💬 Связаться с флористом"], 
-    ]
-reply_markup = ReplyKeyboardMarkup(
-    keyboard,
-    resize_keyboard=True
-)
-
-    await update.message.reply_text(
-        "Добро пожаловать в «Мир цветов» 💚\n\n"
-        "Здесь можно посмотреть наши букеты, "
-        "актуальные акции, промокоды и конкурсы, "
-        "узнать условия доставки или подобрать букет "
-        "по своему настроению. 🌷\n\n"
-        "Выберите нужный раздел:",
-        reply_markup=reply_markup
+] reply_markup = ReplyKeyboardMarkup( keyboard, resize_keyboard=True )
+await update.message.reply_text(
+    "Добро пожаловать в «Мир цветов» 💚\n\n"
+    "Здесь можно посмотреть наши букеты, "
+    "актуальные акции, промокоды и конкурсы, "
+    "узнать условия доставки или подобрать букет "
+    "по своему настроению. 🌷\n\n"
+    "Выберите нужный раздел:",
+    reply_markup=reply_markup
 )
 async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
