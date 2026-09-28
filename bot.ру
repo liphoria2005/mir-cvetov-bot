@@ -1,8 +1,13 @@
 import os
 from telegram import ReplyKeyboardMarkup, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import ( Application, CommandHandler, ContextTypes, MessageHandler, filters, )
 TOKEN = os.getenv("BOT_TOKEN")
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE): keyboard = [ ["💐 Каталог", "✨ Подобрать букет"], ["🔥 Акции", "🎟 Промокоды"], ["🎁 Конкурсы", "🚚 Доставка"], ["🌿 О нас", "📍 Мы находимся"], ["💬 Связаться с нами"], ]
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+keyboard = [ ["💐 Каталог", "✨ Подобрать букет"],
+["🔥 Акции", "🏷 Промокоды"],
+["🎁 Конкурсы", "🚚 Доставка"],
+["💬 Связаться с флористом"], 
+]
 reply_markup = ReplyKeyboardMarkup(
     keyboard,
     resize_keyboard=True
@@ -13,38 +18,25 @@ await update.message.reply_text(
     "Здесь можно посмотреть наши букеты, "
     "актуальные акции, промокоды и конкурсы, "
     "узнать условия доставки или подобрать букет "
-    "по своему настроению.\n\n"
-    "💐 Выберите нужный раздел:",
+    "по своему настроению. 🌷\n\n"
+    "Выберите нужный раздел:",
     reply_markup=reply_markup
 )
-async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE): await update.message.reply_text( "Этот раздел мы сейчас наполняем 🌿\n\n" "Скоро здесь появится всё необходимое." )
-def main(): if not TOKEN: raise ValueError("Не найден BOT_TOKEN")
-external_url = os.getenv("RENDER_EXTERNAL_URL")
-
-if not external_url:
-    raise ValueError("Не найден адрес Render")
-
-application = (
-    Application.builder()
-    .token(TOKEN)
-    .build()
-)
-
-application.add_handler(
-    CommandHandler("start", start)
-)
-
-application.add_handler(
-    MessageHandler(
-        filters.TEXT & ~filters.COMMAND,
-        menu
+async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+    "Этот раздел мы сейчас наполняем 🌿\n\n"
+    "Скоро здесь появится больше возможностей 💚"
     )
+def main():
+    if not TOKEN:
+        raise ValueError("Не найден BOT_TOKEN")
+application = Application.builder().token(TOKEN).build()
+
+application.add_handler(CommandHandler("start", start))
+application.add_handler(
+    MessageHandler(filters.TEXT & ~filters.COMMAND, menu)
 )
 
-application.run_webhook(
-    listen="0.0.0.0",
-    port=int(os.getenv("PORT", "10000")),
-    url_path=TOKEN,
-    webhook_url=f"{external_url}/{TOKEN}",
-)
-if name == "main": main()
+application.run_polling()
+if __name__ == "__main__":
+main()
