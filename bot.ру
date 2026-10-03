@@ -3,11 +3,15 @@ from telegram import ReplyKeyboardMarkup, Update
 from telegram.ext import ( Application, CommandHandler, ContextTypes, MessageHandler, filters, )
 TOKEN = os.getenv("BOT_TOKEN")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [ ["💐 Каталог", "✨ Подобрать букет"],
+    keyboard = [ 
+        ["💐 Каталог", "✨ Подобрать букет"],
         ["🔥 Акции", "🏷 Промокоды"],
         ["🎁 Конкурсы", "🚚 Доставка"],
         ["💬 Связаться с флористом"], 
-] reply_markup = ReplyKeyboardMarkup( keyboard, resize_keyboard=True )
+]
+reply_markup = ReplyKeyboardMarkup(
+    keyboard, resize_keyboard=True 
+)
 await update.message.reply_text(
     "Добро пожаловать в «Мир цветов» 💚\n\n"
     "Здесь можно посмотреть наши букеты, "
