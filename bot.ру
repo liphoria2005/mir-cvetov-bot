@@ -1,41 +1,99 @@
 import os
 from telegram import ReplyKeyboardMarkup, Update
-from telegram.ext import ( Application, CommandHandler, ContextTypes, MessageHandler, filters, )
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+
 TOKEN = os.getenv("BOT_TOKEN")
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [ 
+    keyboard = [
         ["💐 Каталог", "✨ Подобрать букет"],
         ["🔥 Акции", "🏷 Промокоды"],
         ["🎁 Конкурсы", "🚚 Доставка"],
-        ["💬 Связаться с флористом"], 
-]
-reply_markup = ReplyKeyboardMarkup(
-    keyboard, resize_keyboard=True 
-)
-await update.message.reply_text(
-    "Добро пожаловать в «Мир цветов» 💚\n\n"
-    "Здесь можно посмотреть наши букеты, "
-    "актуальные акции, промокоды и конкурсы, "
-    "узнать условия доставки или подобрать букет "
-    "по своему настроению. 🌷\n\n"
-    "Выберите нужный раздел:",
-    reply_markup=reply_markup
-)
-async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-    "Этот раздел мы сейчас наполняем 🌿\n\n"
-    "Скоро здесь появится больше возможностей 💚"
+        ["💬 Связаться с флористом"],
+    ]
+
+    reply_markup = ReplyKeyboardMarkup(
+        keyboard,
+        resize_keyboard=True
     )
+
+    await update.message.reply_text(
+        "Добро пожаловать в «Мир цветов» 💚\n\n"
+        "Здесь можно посмотреть наши букеты, "
+        "актуальные акции, промокоды и конкурсы, "
+        "узнать условия доставки или подобрать букет "
+        "по своему настроению. 🌷\n\n"
+        "Выберите нужный раздел:",
+        reply_markup=reply_markup
+    )
+
+async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+
+    if text == "💬 Связаться с флористом":
+        await update.message.reply_text(
+            "Напишите нам — флорист поможет выбрать букет 💐"
+        )
+        return
+
+    if text == "🚚 Доставка":
+        await update.message.reply_text(
+            "Доставка цветов по Чувашии 🚚\n"
+            "Уточнить стоимость и время доставки можно у флориста."
+        )
+        return
+
+    if text == "🔥 Акции":
+        await update.message.reply_text(
+            "🔥 Актуальные акции публикуем в наших соцсетях.\n"
+            "Следите за промокодами — они могут действовать только сегодня!"
+        )
+        return
+
+    if text == "🏷 Промокоды":
+        await update.message.reply_text(
+            "Введите промокод при оформлении заказа.\n"
+            "Условия и срок действия уточняйте у флориста."
+        )
+        return
+
+    if text == "💐 Каталог":
+        await update.message.reply_text(
+            "💐 Наш каталог сейчас наполняется.\n"
+            "Напишите флористу, и мы поможем подобрать букет."
+        )
+        return
+
+    if text == "✨ Подобрать букет":
+        await update.message.reply_text(
+            "✨ Давайте подберём букет!\n"
+            "Напишите бюджет и для кого выбираете цветы."
+        )
+        return
+
+    if text == "🎁 Конкурсы":
+        await update.message.reply_text(
+            "🎁 Информация о конкурсах появится здесь.\n"
+            "Следите за новостями «Мира цветов» 💚"
+        )
+        return
+
+    await update.message.reply_text(
+        "Чтобы начать, выберите раздел в меню 💚"
+    )
+
 def main():
     if not TOKEN:
         raise ValueError("Не найден BOT_TOKEN")
-application = Application.builder().token(TOKEN).build()
 
-application.add_handler(CommandHandler("start", start))
-application.add_handler(
-    MessageHandler(filters.TEXT & ~filters.COMMAND, menu)
-)
+    application = Application.builder().token(TOKEN).build()
 
-application.run_polling()
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, menu)
+    )
+
+    application.run_polling()
+
 if __name__ == "__main__":
-main()
+    main()
